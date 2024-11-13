@@ -71,36 +71,6 @@ def fetch_trends_by_category2(category, products, output_folder=config.TRENDING_
     logger.info(f"Dados de tendências salvos em {filename}")
 
 
-def main():
-    # Definindo categorias
-    categorias = {
-        "telefonia": "Celulares e Telefonia",
-        "televisores": "Televisores",
-        "eletroportateis": "Eletroportáteis",
-        "eletrodomesticos": "Eletrodomésticos",
-        "mobiliario": "Mobiliário"
-    }
-
-    # Escolha da categoria
-    print("Categorias disponíveis:")
-    for categoria_key, categoria_name in categorias.items():
-        print(f"- {categoria_key} ({categoria_name})")
-
-    categoria_escolhida = input("Escolha uma categoria: ").strip().lower()
-
-    if categoria_escolhida in categorias:
-        # Entrada dos produtos
-        produtos = []
-        print("Insira os nomes de 4 produtos para a categoria escolhida:")
-        for i in range(4):
-            produto = input(f"Produto {i + 1}: ").strip()
-            produtos.append(produto)
-
-        fetch_trends_by_category(categoria_escolhida, produtos)
-    else:
-        print("Categoria inválida. Por favor, escolha uma das categorias listadas.")
-
-
 def execute_getproducts_trends():
     categorias = [
         "telefonia",

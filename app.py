@@ -18,7 +18,7 @@ logger = logging.getLogger(__name__)
 def run_gettwitterposts():
     logger.info("Executando gettwitterposts...")
     try:
-        gettwitterposts.main()
+        gettwitterposts.buscar_tweets_e_mencoes()
         logger.info("gettwitterposts executado com sucesso.")
     except Exception as e:
         logger.error(f"Erro ao executar gettwitterposts: {e}")
@@ -26,7 +26,7 @@ def run_gettwitterposts():
 def run_gettopproductsstate():
     logger.info("Executando gettopproductsstate...")
     try:
-        gettopproductsstate.main()
+        gettopproductsstate.execute_getproductsstate()
         logger.info("gettopproductsstate executado com sucesso.")
     except Exception as e:
         logger.error(f"Erro ao executar gettopproductsstate: {e}")
@@ -34,7 +34,7 @@ def run_gettopproductsstate():
 def run_gethashtags():
     logger.info("Executando gethashtags...")
     try:
-        gethashtags.main()
+        gethashtags.execute_get_hashtags()
         logger.info("gethashtags executado com sucesso.")
     except Exception as e:
         logger.error(f"Erro ao executar gethashtags: {e}")
@@ -42,7 +42,7 @@ def run_gethashtags():
 def run_getproductstrends():
     logger.info("Executando getproductstrends...")
     try:
-        getproductstrends.main()
+        getproductstrends.execute_getproducts_trends()
         logger.info("getproductstrends executado com sucesso.")
     except Exception as e:
         logger.error(f"Erro ao executar getproductstrends: {e}")
@@ -52,9 +52,9 @@ if __name__ == "__main__":
     scheduler = BackgroundScheduler()
 
     # Agendar as tarefas
-    scheduler.add_job(run_gettwitterposts, 'interval', minutes=10)
-    scheduler.add_job(run_gettopproductsstate, 'interval', minutes=15)
-    scheduler.add_job(run_gethashtags, 'interval', minutes=20)
+    scheduler.add_job(run_gettwitterposts, 'interval', minutes=15)
+    scheduler.add_job(run_gettopproductsstate, 'interval', hour=1)
+    scheduler.add_job(run_gethashtags, 'interval', hour=1)
     scheduler.add_job(run_getproductstrends, 'interval', minutes=30)
 
     # Iniciar o agendador

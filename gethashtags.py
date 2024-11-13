@@ -30,6 +30,12 @@ def combine_and_save_trends(twitter_data, google_data):
     # Concatenando os DataFrames
     combined_df = pd.concat([twitter_df, google_df], ignore_index=True)
 
+    # Convertendo a coluna "Contagem" para numérico (se necessário)
+    combined_df['Contagem'] = pd.to_numeric(combined_df['Contagem'], errors='coerce').fillna(0)
+
+    # Ordenando por "Contagem" em ordem decrescente
+    combined_df = combined_df.sort_values(by="Contagem", ascending=False)
+
     output_folder = config.WORD_TSV_FOLDER_IN
 
     os.makedirs(output_folder, exist_ok=True)
