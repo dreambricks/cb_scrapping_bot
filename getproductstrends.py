@@ -4,6 +4,8 @@ from pytrends.request import TrendReq
 import os
 import time
 
+import config
+
 # Configuração do logger
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
@@ -38,7 +40,7 @@ def fetch_trends_by_category(category, products):
     logger.info(f"Dados de tendências salvos em {filename}")
 
 
-def fetch_trends_by_category2(category, products, output_folder='static/products'):
+def fetch_trends_by_category2(category, products, output_folder=config.TRENDING_PRODUCTS_FOLDER_IN):
     os.makedirs(output_folder, exist_ok=True)
     logger.info(f"Extraindo dados de tendências para a categoria: {category}")
 

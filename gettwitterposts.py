@@ -3,6 +3,7 @@ import requests
 import csv
 import argparse
 import logging
+import config
 
 # Configuração do logger
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -69,19 +70,26 @@ def save_to_tsv(tweets, filename):
             writer.writerow([tweet['created_at'], tweet['author_id'], cleaned_text])
     logger.info(f"Resultados salvos em {filename}")
 
-if __name__ == "__main__":
+def buscar_tweets_e_mencoes():
     parser = argparse.ArgumentParser(description="Buscar menções e tweets com hashtags.")
-    parser.add_argument("--username", type=str, help="Usuário para buscar menções.")
-    parser.add_argument("--hashtags", nargs="+", type=str, help="Lista de hashtags para buscar tweets.")
-    parser.add_argument("--max_results", type=int, default=10, help="Máximo de resultados (entre 10 e 100).")
+    parser.add_argument("--username", type=str, default="casasbahia", help="Usuário para buscar menções.")
+    parser.add_argument("--hashtags", nargs="+", type=str, default=["blackfriday"], help="Lista de hashtags para buscar tweets.")
+    parser.add_argument("--max_results", type=int, default=20, help="Máximo de resultados (entre 10 e 100).")
     args = parser.parse_args()
 
     # Buscar menções ao usuário se o username for fornecido
     if args.username:
         mentions = fetch_mentions(args.username, args.max_results)
-        save_to_tsv(mentions, f"{args.username}_mentions.tsv")
+        output_folder = config.X_TSV_FOLDER_IN
+        os.makedirs(output_folder, exist_ok=True)
+        tsv_filename = os.path.join(output_folder,f"{args.username}_mentions.tsv")
+        save_to_tsv(mentions, tsv_filename)
 
     # Buscar tweets com hashtags se hashtags forem fornecidas
     if args.hashtags:
         hashtag_tweets = fetch_tweets_by_hashtags(args.hashtags, args.max_results)
-        save_to_tsv(hashtag_tweets, "hashtags_tweets.tsv")
+        tsv_filename =  "hashtags_tweets.tsv"
+        save_to_tsv(hashtag_tweets, tsv_filename)
+
+if __name__ == "__main__":
+    buscar_tweets_e_mencoes()
